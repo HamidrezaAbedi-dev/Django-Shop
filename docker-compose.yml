@@ -6,10 +6,6 @@ services:
     container_name: db
     env_file:
       - ./envs/dev/django/.env
-    environment:
-      POSTGRES_DB: ${PGDB_NAME}
-      POSTGRES_USER: ${PGDB_USER}
-      POSTGRES_PASSWORD: ${PGDB_PASSWORD}
     expose:
       - 5432
     # ports:
@@ -30,9 +26,9 @@ services:
       - ./core:/usr/src/app
     working_dir: /usr/src/app
     # command: django-admin startproject core .
-    command: python manage.py runserver 0.0.0.0:8000
-    # environment:
-    #   - DEBUG=True
+    command: >
+      sh -c "python -m pip install -r requirements.txt &&
+      python manage.py runserver 0.0.0.0:8000"
     env_file:
       - ./envs/dev/django/.env
     restart:
